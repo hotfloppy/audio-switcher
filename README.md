@@ -33,4 +33,4 @@ It would be better if you assign this to a hotkey so it's easier to use.<br>
 My personal fav is:
 * `F8` to change audio device
 * `Pause` to increase volume
-* `Scroll` Lock to decrease the volume
+* `Scroll Lock` to decrease the volume
