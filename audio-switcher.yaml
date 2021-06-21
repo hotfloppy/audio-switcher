@@ -1,0 +1,11 @@
+current: speaker
+device:
+  speaker:
+    name: HDA Intel PCH
+    profile: output:analog-stereo
+  headphone:
+    name: FANTECH OCTANE 7.1
+    profile: output:analog-stereo+input:multichannel-input
+volume:
+  up: 5
+  down: 5
