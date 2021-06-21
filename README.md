@@ -27,12 +27,10 @@ A simple script to help change which audio devices we would like to use; speaker
 
 * To decrease volume<br>
 `$ audio-switcher.sh down`
-<br><br>
----
-<br>
-**ps -<br>
-My suggestion is that you assign this to a hotkey so it's easier to use.<br>
-My personal fav is:<br>
-`F8` to change audio device<br>
-`Pause` to increase volume<br>
-`Scroll` Lock to decrease the volume.**
+
+## Suggestion
+It would be better if you assign this to a hotkey so it's easier to use.<br>
+My personal fav is:
+* `F8` to change audio device
+* `Pause` to increase volume
+* `Scroll` Lock to decrease the volume
