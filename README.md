@@ -11,11 +11,11 @@ A simple script to help change which audio devices we would like to use; speaker
 ## How to install:
 
 1. Make sure required dependencies met.
-2. Clone this repository into $REPOPATH of your choosing
-3. Install using $REPOPATH/install.sh
-4. Run audio-switcher.sh once to generate the YAML file
-5. Edit audio-switcher.yaml as needed
-6. Done
+2. Clone this repository into `$REPOPATH` (*e.g: /home/kucing/github*) of your choosing
+3. Navigate into `$REPOPATH` and install using `install.sh`
+4. Edit `audio-switcher.yaml` as needed using the `audio-switcher.yaml.example` as a reference.
+    * Or you can just run `audio-switcher.sh` in terminal, and it will tell you what needed to be done.
+5. Voila!
 
 ## Usage:
 
@@ -31,6 +31,8 @@ A simple script to help change which audio devices we would like to use; speaker
 ## Suggestion
 It would be better if you assign this to a hotkey so it's easier to use.<br>
 My personal fav is:
+<br>
+
 * `F8` to change audio device
 * `Pause` to increase volume
 * `Scroll Lock` to decrease the volume
