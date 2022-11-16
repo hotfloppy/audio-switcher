@@ -142,8 +142,10 @@ fi
 #
 # Start with turning off all audio devices
 #
-cards_count=$(pactl list cards | grep Card | wc -l)
-for ((card=0; card<${cards_count}; card++)); do
+#cards_count=$(pactl list cards | grep Card | wc -l)
+cards=($(pactl list cards | grep Card | cut -d "#" -f 2))
+#for ((card=0; card<${cards_count}; card++)); do
+for card in ${cards[@]}; do
   pactl set-card-profile $card off
 done
 
