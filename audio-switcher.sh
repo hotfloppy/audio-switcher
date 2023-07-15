@@ -96,18 +96,57 @@ EOF
 
 increase_vol() {
   curvol=$(pactl list sinks | grep '^[[:space:]]Volume:' | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
-  if [[ $curvol -lt 100 ]]; then
+#  if [[ $curvol -lt 150 ]]; then
+#    pactl set-sink-volume @DEFAULT_SINK@ +${volup}%
+#  elif [[ $curvol -ge 100 ]]; then
+#    if [[ $current -ne "headphone" ]]; then
+#    pactl set-sink-volume @DEFAULT_SINK@ +${volup}%
+##    pactl set-sink-volume @DEFAULT_SINK@ 150%
+#    fi
+#  elif [[ $curvol -eq 150 ]]; then
+##    if [[ $current -ne "headphone" ]]; then
+##      pactl set-sink-volume @DEFAULT_SINK@ 100%
+##    else
+#      pactl set-sink-volume @DEFAULT_SINK@ 150%
+#      notify-send -t 2000 "Volume is already at max level (150%)."
+##    fi
+#  fi
+
+  if [[ $curvol -lt 150 ]]; then
     pactl set-sink-volume @DEFAULT_SINK@ +${volup}%
-  elif [[ $curvol -gt 100 ]]; then
-    pactl set-sink-volume @DEFAULT_SINK@ 100%
-  elif [[ $curvol -eq 100 ]]; then
-    notify-send -t 2000 "Volume is already at max level (100%)."
+    notify-send -t 1000 -i audio-volume-high "Audio Switcher" "Current Volume: $curvol"
   fi
+
+  if [[ $curvol -ge 100 ]]; then
+    if [[ $current == "headphone" ]]; then
+      pactl set-sink-volume @DEFAULT_SINK@ 100%
+      notify-send -t 3000 -i multimedia-volume-control "Volume is already at max level (100%)."
+    elif [[ $current == "speaker" ]]; then
+      pactl set-sink-volume @DEFAULT_SINK@ +${volup}%
+      notify-send -t 1000 -i audio-volume-high "Audio Switcher" "Current Volume: $curvol"
+    fi
+  fi
+
+  if [[ $curvol -eq 150 ]]; then
+    if [[ $current == "speaker" ]]; then
+      pactl set-sink-volume @DEFAULT_SINK@ 150%
+      notify-send -t 3000 -i multimedia-volume-control "Volume is already at max level (150%)."
+    fi
+  fi
+
+#  if [[ $curvol -eq 100 ]]; then
+#    if [[ $current == "headphone" ]]; then
+#      pactl set-sink-volume @DEFAULT_SINK@ 100%
+#      notify-send -t 2000 "Volume is already at max level (100%)."
+#    fi
+#  fi
   exit
 }
 
 decrease_vol() {
+  curvol=$(pactl list sinks | grep '^[[:space:]]Volume:' | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
   pactl set-sink-volume @DEFAULT_SINK@ -${voldown}%
+  notify-send -t 1000 -i audio-volume-low "Audio Switcher" "Current Volume: $curvol"
   exit
 }
 
@@ -157,17 +196,19 @@ headphone_position=$(pactl list cards | grep -B 6 -i "alsa.card_name = \"$headph
 speaker_position=$(pactl list cards | grep -B 6 -i "alsa.card_name = \"$speaker_name\"" | grep Card | awk -F'#' '{ print $2 }')
 
 enable_headphone() {
-  echo "Switched to Headphone"
-  notify-send -t 2000 "Switched to Headphone"
   pactl set-card-profile $headphone_position $headphone_profile
   yq e ' .current = "headphone" ' -i $conffile
+  curvol=$(pactl list sinks | grep '^[[:space:]]Volume:' | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
+  echo -e "\nSwitched to Headphone\n\nCurrent Volume: $curvol"
+  notify-send -t 3000 -i multimedia-volume-control "Audio Switcher" "\nSwitched to Headphone\n\nCurrent Volume: $curvol"
 }
 
 enable_speaker() {
-  echo "Switched to Speaker"
-  notify-send -t 2000 "Switched to Speaker"
   pactl set-card-profile $speaker_position $speaker_profile 
   yq e ' .current = "speaker" ' -i $conffile
+  curvol=$(pactl list sinks | grep '^[[:space:]]Volume:' | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
+  echo -e "\nSwitched to Speaker\n\nCurrent Volume: $curvol"
+  notify-send -t 3000 -i multimedia-volume-control "Audio Switcher" "\nSwitched to Speaker\n\nCurrent Volume: $curvol"
 }
 
 if [[ "$current" == "headphone" ]]; then
