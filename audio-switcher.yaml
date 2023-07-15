@@ -5,8 +5,7 @@ device:
     profile: output:analog-stereo
   headphone:
     name: FANTECH OCTANE 7.1
-    #    profile: output:analog-stereo+input:multichannel-input
-    profile: output:analog-stereo+input:mono-fallback
+    profile: output:analog-stereo
 volume:
   up: 5
   down: 5
