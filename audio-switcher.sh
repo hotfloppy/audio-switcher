@@ -96,21 +96,6 @@ EOF
 
 increase_vol() {
   curvol=$(pactl list sinks | grep '^[[:space:]]Volume:' | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
-#  if [[ $curvol -lt 150 ]]; then
-#    pactl set-sink-volume @DEFAULT_SINK@ +${volup}%
-#  elif [[ $curvol -ge 100 ]]; then
-#    if [[ $current -ne "headphone" ]]; then
-#    pactl set-sink-volume @DEFAULT_SINK@ +${volup}%
-##    pactl set-sink-volume @DEFAULT_SINK@ 150%
-#    fi
-#  elif [[ $curvol -eq 150 ]]; then
-##    if [[ $current -ne "headphone" ]]; then
-##      pactl set-sink-volume @DEFAULT_SINK@ 100%
-##    else
-#      pactl set-sink-volume @DEFAULT_SINK@ 150%
-#      notify-send -t 2000 "Volume is already at max level (150%)."
-##    fi
-#  fi
 
   if [[ $curvol -lt 150 ]]; then
     pactl set-sink-volume @DEFAULT_SINK@ +${volup}%
@@ -134,12 +119,6 @@ increase_vol() {
     fi
   fi
 
-#  if [[ $curvol -eq 100 ]]; then
-#    if [[ $current == "headphone" ]]; then
-#      pactl set-sink-volume @DEFAULT_SINK@ 100%
-#      notify-send -t 2000 "Volume is already at max level (100%)."
-#    fi
-#  fi
   exit
 }
 
@@ -181,9 +160,7 @@ fi
 #
 # Start with turning off all audio devices
 #
-#cards_count=$(pactl list cards | grep Card | wc -l)
 cards=($(pactl list cards | grep Card | cut -d "#" -f 2))
-#for ((card=0; card<${cards_count}; card++)); do
 for card in ${cards[@]}; do
   pactl set-card-profile $card off
 done
