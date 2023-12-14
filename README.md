@@ -4,13 +4,18 @@ A simple script to help change which audio devices we would like to use; speaker
 
 ## Dependencies
 
-* yq (https://github.com/mikefarah/yq)
-* pactl (provided by libpulse (Arch), pulseaudio-utils (Ubuntu))
-* notify-send (comes with libnotify (Arch), libnotify-bin (Ubuntu))
+* **yq** ( https://github.com/mikefarah/yq )
+  * **Note:** don't confuse with another *yq*, which is just a wrapper for *jq*
+* **pactl**
+  * **Arch:** provided by **libpulse**
+  * **Ubuntu:** provided by **pulseaudio-utils**
+* **notify-send**
+  * **Arch:** provided by **libnotify**
+  * **Ubuntu:** provided by **libnotify-bin**
 
 ## How to install:
 
-1. Make sure required dependencies met.
+1. Make sure required dependencies has been installed
 2. Clone this repository into `$REPOPATH` (*e.g: /home/kucing/github*) of your choosing
 3. Navigate into `$REPOPATH` and install using `install.sh`
 4. Edit `audio-switcher.yaml` as needed using the `audio-switcher.yaml.example` as a reference.
@@ -29,10 +34,13 @@ A simple script to help change which audio devices we would like to use; speaker
 `$ audio-switcher.sh down`
 
 ## Suggestion
-It would be better if you assign this to a hotkey so it's easier to use.<br>
+It would be better if you assigned this to a hotkey so that it's easier to use.<br>
 My personal fav is:
-<br>
 
-* `F8` to change audio device
-* `Pause` to increase volume
-* `Scroll Lock` to decrease the volume
+| Hotkey  | Command | Description |
+| --- | --- | --- |
+| F8  | `$REPOPATH/audio-switcher.sh`  | To change audio device |
+| F11  | `$REPOPATH/audio-switcher.sh down` | To decrease volume |
+| F12  | `$REPOPATH/audio-switcher.sh up` | To increase volume |
+
+**Note:** change *$REPOPATH* to actual path containing *audio-switcher.sh*
