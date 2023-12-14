@@ -4,8 +4,20 @@ PATHNAME=$(dirname $(readlink -f $0))
 source ${PATHNAME}/config
 
 # check dependencies
-if [[ ! $(which yq 2>/dev/null) ]]; then echo "'yq' not available. Install: https://github.com/mikefarah/yq" ; exit 99 ; fi
+#
+# yq
+if [[ ! $(which yq 2>/dev/null) ]]; then
+	echo "'yq' not available. Please install from https://github.com/mikefarah/yq and re-run this script."
+	exit 99
+elif [[ $(yq -V | grep -c mikefarah) -eq 0 ]]; then
+	echo "Please install 'yq' from https://github.com/mikefarah/yq and re-run this script."
+	exit 99
+fi
+#
+# pactl
 if [[ ! $(which pactl 2>/dev/null) ]]; then echo "'pactl' not available. You might want to install 'pulseaudio-utils' first." ; exit 99 ; fi
+#
+# notify-send
 if [[ ! $(which notify-send 2>/dev/null) ]]; then echo "'notify-send' not available. You might want to install 'libnotify-bin' first." ; exit 99 ; fi
 
 conffile="$basedir/${scriptname%.*}.yaml"
@@ -22,9 +34,11 @@ conffile_error() {
   echo -e "$(eval $lines)${green}${bold}\n\
 current: speaker\n\
 device:\n\
-  speaker: HDA Intel PCH\n\
+  speaker:\n\
+    name: HDA Intel PCH\n\
     profile: output:analog-stereo\n\
-  headphone: FANTECH OCTANE 7.1\n\
+  headphone:\n\
+    name: FANTECH OCTANE 7.1\n\
     profile: output:analog-stereo+input:multichannel-input\n\
 volume:\n\
   up: 5\n\
